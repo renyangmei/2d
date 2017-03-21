@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<style>
+		.clock{
+			width: 200px;
+			height: 200px;
+			margin: auto;
+			background: radial-gradient(#fff,#ccc);
+			box-shadow: 0 0 5px #000;
+			position: fixed;
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			border-radius: 50%;
+			/*border: 10px solid #FF6666;*/
+		}
+		
+	</style>
+	<body>
+		<div class="clock"></div>
+	</body>
+	<script>
+		var clock=document.querySelector(".clock");
+		
+		createMark();
+			var times=new Date();
+			var hours=times.getHours();
+			var min=times.getMinutes();
+			var sec=times.getSeconds();
+			
+			var s=createPointer(2,72,"red",sec*6);
+			var m=createPointer(3,52,"#000",min*6);
+			var h=createPointer(6,42,"#000",hours*30+min*6/12);
+			
+		setInterval(function(){
+			var times=new Date();
+			var hours=times.getHours();
+			var min=times.getMinutes();
+			var sec=times.getSeconds();
+			h.style.transform="rotate("+(hours*30+min*6/12)+"deg)";	
+			m.style.transform="rotate("+(min*6)+"deg)";	
+			s.style.transform="rotate("+(sec*6)+"deg)";
+			
+		},1000)
+		
+		function createMark(){
+			for(var i=0;i<60;i++){
+				if(i%5==0){
+					widths=4;
+					heights=8;
+				}else{
+					widths=2;
+					heights=6;
+				}
+				var divs=document.createElement("div");
+				divs.style.cssText="width:"+widths+"px;height:"+heights+"px;position:absolute;left:"+(200-widths)/2+"px;top:0;background:#000;";
+				divs.style.transformOrigin="center 100px";
+				divs.style.transform="rotate("+i*6+"deg)";
+				clock.appendChild(divs);	
+			}
+		}
+		//创建时分秒
+		function createPointer(w,h,c,a){
+			var divs=document.createElement("div");
+			var lefts=(200-w)/2;
+			var tops=200/2-h;
+			divs.style.cssText="width:"+w+"px;height:"+h+"px;position:absolute;left:"+lefts+"px;top:"+tops+"px;background:"+c+";"
+			divs.style.transformOrigin="center bottom";
+			divs.style.transform="rotate("+a+"deg)";
+			clock.appendChild(divs);
+			return divs;
+		}
+	</script>
+</html>
